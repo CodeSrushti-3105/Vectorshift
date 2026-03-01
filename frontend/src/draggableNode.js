@@ -18,15 +18,25 @@ export const DraggableNode = ({ type, label, color = '#6366f1', icon }) => {
         gap: 6,
         padding: '6px 12px',
         borderRadius: 8,
-        background: `${color}20`,
-        border: `1px solid ${color}50`,
+        background: `${color}15`, 
+        border: `1px solid ${color}40`,
         userSelect: 'none',
-        transition: 'background 0.15s, transform 0.1s',
+        transition: 'all 0.15s ease',
       }}
       draggable
-      onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.96)'; }}
-      onMouseUp={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+      }}
+      onMouseDown={(e) => {
+        e.currentTarget.style.transform = 'scale(0.96)';
+      }}
+      onMouseUp={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'transparent';
+        e.currentTarget.style.transform = 'scale(1)';
+      }}
     >
       {icon && (
         <span

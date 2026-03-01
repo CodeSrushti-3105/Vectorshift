@@ -103,7 +103,12 @@ export const PipelineUI = () => {
         connectionLineType='smoothstep'
         fitView
       >
-        <Background color="#cbd5e1" gap={gridSize} variant="dots" />
+        <Background
+          gap={gridSize}
+          size={1.5}
+          color="#e2e8f0"
+          variant="dots"
+        />
         <Controls style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.1)', borderRadius: 8 }} />
         <MiniMap
           nodeStrokeWidth={3}
