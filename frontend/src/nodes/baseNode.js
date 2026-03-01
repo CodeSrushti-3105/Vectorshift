@@ -19,6 +19,7 @@ export const BaseNode = ({
           type="target"
           position={Position.Left}
           id={`${id}-${input.id}`}
+          style={input.style}
         />
       ))}
 
@@ -37,6 +38,7 @@ export const BaseNode = ({
           type="source"
           position={Position.Right}
           id={`${id}-${output.id}`}
+          style={output.style}
         />
       ))}
     </div>
