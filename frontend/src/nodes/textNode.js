@@ -1,52 +1,85 @@
-// textNode.js
-
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useUpdateNodeInternals } from "reactflow";
 import { BaseNode } from "./baseNode";
 
+const MIN_WIDTH = 200;
+const MAX_WIDTH = 250;
+
+const extractVariables = (text) => {
+  const regex = /{{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}}/g;
+  const variables = new Set();
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    variables.add(match[1]);
+  }
+
+  return Array.from(variables);
+};
+
 export const TextNode = ({ id, data }) => {
-  const [currText, setCurrText] = useState(
-    data?.text || "{{input}}"
-  );
-
+  const [text, setText] = useState(data?.text || "{{input}}");
+  const [nodeWidth, setNodeWidth] = useState(MIN_WIDTH);
   const textareaRef = useRef(null);
+  const updateNodeInternals = useUpdateNodeInternals();
 
-  // Auto resize
+  const variables = useMemo(() => extractVariables(text), [text]);
+
   useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height =
-        textareaRef.current.scrollHeight + "px";
-    }
-  }, [currText]);
+    if (!textareaRef.current) return;
 
-  // Extract variables inside {{ }}
-  const variables = useMemo(() => {
-    const regex = /{{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}}/g;
-    const matches = [];
-    let match;
+    const el = textareaRef.current;
 
-    while ((match = regex.exec(currText)) !== null) {
-      matches.push(match[1]);
-    }
+    // Reset height before recalculating
+    el.style.height = "auto";
 
-    // remove duplicates
-    return [...new Set(matches)];
-  }, [currText]);
+    // Measure longest line
+    const lines = text.split("\n");
+    const longestLine = lines.reduce(
+      (a, b) => (a.length > b.length ? a : b),
+      ""
+    );
+
+    const calculatedWidth = longestLine.length * 8 + 40;
+
+    const finalWidth = Math.min(
+      MAX_WIDTH,
+      Math.max(MIN_WIDTH, calculatedWidth)
+    );
+
+    setNodeWidth(finalWidth);
+
+    // Apply width so wrapping can occur
+    el.style.width = "100%";
+    el.style.whiteSpace = "pre-wrap";
+    el.style.wordBreak = "break-word";
+
+    // Now adjust height after wrapping
+    el.style.height = el.scrollHeight + "px";
+
+    updateNodeInternals(id);
+  }, [text, variables, id, updateNodeInternals]);
 
   return (
     <BaseNode
       id={id}
       title="Text"
-      inputs={variables.map((variable) => ({
-        id: variable,
-      }))}
+      width={nodeWidth}
+      inputs={variables.map((name) => ({ id: name }))}
       outputs={[{ id: "output" }]}
     >
       <textarea
         ref={textareaRef}
-        value={currText}
-        onChange={(e) => setCurrText(e.target.value)}
-        style={{ width: "100%", resize: "none" }}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        style={{
+          resize: "none",
+          overflow: "hidden",
+          width: "100%",
+          boxSizing: "border-box",
+          fontSize: 14,
+          padding: 6,
+        }}
       />
     </BaseNode>
   );

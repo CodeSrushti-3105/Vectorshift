@@ -1,5 +1,3 @@
-// baseNode.js
-
 import { Handle, Position } from "reactflow";
 
 export const BaseNode = ({
@@ -8,41 +6,45 @@ export const BaseNode = ({
   inputs = [],
   outputs = [],
   children,
+  width = 200,
 }) => {
+  const getHandlePosition = (index, total) =>
+    `${((index + 1) * 100) / (total + 1)}%`;
+
   return (
-    <div style={{ width: 200, minHeight: 80, border: "1px solid black", padding: 10 }}>
-      
-      {/* Input Handles */}
+    <div
+      style={{
+        width,
+        minHeight: 80,
+        border: "1px solid black",
+        padding: 10,
+        position: "relative",
+        boxSizing: "border-box",
+      }}
+    >
       {inputs.map((input, index) => (
         <Handle
           key={input.id}
           type="target"
           position={Position.Left}
           id={`${id}-${input.id}`}
-          style={{
-            top: `${((index + 1) * 100) / (inputs.length + 1)}%`,
-          }}
+          style={{ top: getHandlePosition(index, inputs.length) }}
         />
       ))}
 
-      {/* Title */}
-      <div>
+      <div style={{ marginBottom: 8 }}>
         <strong>{title}</strong>
       </div>
 
-      {/* Content */}
       <div>{children}</div>
 
-      {/* Output Handles */}
       {outputs.map((output, index) => (
         <Handle
           key={output.id}
           type="source"
           position={Position.Right}
           id={`${id}-${output.id}`}
-          style={{
-            top: `${((index + 1) * 100) / (outputs.length + 1)}%`,
-          }}
+          style={{ top: getHandlePosition(index, outputs.length) }}
         />
       ))}
     </div>
