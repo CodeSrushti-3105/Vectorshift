@@ -55,12 +55,14 @@ export const BaseNode = ({
 
   return (
     <div
+      className="pipeline-node"
       style={{
         width,
         background: "#ffffff",
         border: "1px solid #e2e8f0",
         borderRadius: 12,
         boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+        transition: "all 0.18s ease",
         overflow: "visible",
         position: "relative",
         fontFamily:
@@ -70,7 +72,7 @@ export const BaseNode = ({
       {/* Colored header */}
       <div
         style={{
-          background: color,
+          background: `linear-gradient(135deg, ${color}, ${color}cc)`,
           borderRadius: "11px 11px 0 0",
           padding: "8px 10px 8px 14px",
           color: "#ffffff",
@@ -81,6 +83,7 @@ export const BaseNode = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          boxShadow: "inset 0 -1px 0 rgba(255,255,255,0.2)",
         }}
       >
         <span>{title}</span>
@@ -122,12 +125,14 @@ export const BaseNode = ({
           id={`${id}-${input.id}`}
           style={{
             top: getHandleTop(index, inputs.length),
-            left: -6,
-            width: 12,
-            height: 12,
+            left: -8,
+            width: 14,
+            height: 14,
             background: "#ffffff",
-            border: `2.5px solid ${color}`,
+            border: `3px solid ${color}`,
             borderRadius: "50%",
+            boxShadow: `0 0 0 2px ${color}20`,
+            transition: "all 0.15s ease",
             ...input.style,
           }}
         />
