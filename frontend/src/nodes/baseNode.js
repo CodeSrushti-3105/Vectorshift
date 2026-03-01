@@ -10,35 +10,39 @@ export const BaseNode = ({
   children,
 }) => {
   return (
-    <div style={{ width: 200, height: 80, border: "1px solid black" }}>
+    <div style={{ width: 200, minHeight: 80, border: "1px solid black", padding: 10 }}>
       
-      {/* Left Handles */}
-      {inputs.map((input) => (
+      {/* Input Handles */}
+      {inputs.map((input, index) => (
         <Handle
           key={input.id}
           type="target"
           position={Position.Left}
           id={`${id}-${input.id}`}
-          style={input.style}
+          style={{
+            top: `${((index + 1) * 100) / (inputs.length + 1)}%`,
+          }}
         />
       ))}
 
+      {/* Title */}
       <div>
-        <span>{title}</span>
+        <strong>{title}</strong>
       </div>
 
-      <div>
-        {children}
-      </div>
+      {/* Content */}
+      <div>{children}</div>
 
-      {/* Right Handles */}
-      {outputs.map((output) => (
+      {/* Output Handles */}
+      {outputs.map((output, index) => (
         <Handle
           key={output.id}
           type="source"
           position={Position.Right}
           id={`${id}-${output.id}`}
-          style={output.style}
+          style={{
+            top: `${((index + 1) * 100) / (outputs.length + 1)}%`,
+          }}
         />
       ))}
     </div>
