@@ -16,33 +16,27 @@ export const InputNode = ({ id, data }) => {
     <BaseNode
       id={id}
       title="Input"
-      outputs={[{ id: "value" }]}   // right-side handle
+      outputs={[{ id: "value" }]}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-        
-        <label style={{ fontSize: 12 }}>
-          Name:
-          <input
-            type="text"
-            value={currName}
-            onChange={(e) => setCurrName(e.target.value)}
-            style={{ width: "100%" }}
-          />
-        </label>
+      <label>
+        Name:
+        <input
+          type="text"
+          value={currName}
+          onChange={(e) => setCurrName(e.target.value)}
+        />
+      </label>
 
-        <label style={{ fontSize: 12 }}>
-          Type:
-          <select
-            value={inputType}
-            onChange={(e) => setInputType(e.target.value)}
-            style={{ width: "100%" }}
-          >
-            <option value="Text">Text</option>
-            <option value="File">File</option>
-          </select>
-        </label>
-
-      </div>
+      <label>
+        Type:
+        <select
+          value={inputType}
+          onChange={(e) => setInputType(e.target.value)}
+        >
+          <option value="Text">Text</option>
+          <option value="File">File</option>
+        </select>
+      </label>
     </BaseNode>
   );
 };
