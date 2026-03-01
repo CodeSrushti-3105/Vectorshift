@@ -55,12 +55,14 @@ export const BaseNode = ({
 
   return (
     <div
+      className="pipeline-node"
       style={{
         width,
         background: "#ffffff",
         border: "1px solid #e2e8f0",
         borderRadius: 12,
         boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+        transition: "all 0.18s ease",
         overflow: "visible",
         position: "relative",
         fontFamily:

@@ -46,3 +46,8 @@ code {
   from { stroke-dashoffset: 12; }
   to   { stroke-dashoffset: 0; }
 }
+
+.pipeline-node:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
